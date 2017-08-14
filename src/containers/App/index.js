@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import AppTitle from '../../components/BookListAppTitle.js';
 import BookList from '../BookList';
-import {getBooksFromFakeXHR} from '../../lib/books.db.js';
+import NewBookForm from '../NewBookForm';
+import {getBooksFromFakeXHR, addBookToFakeXHR} from '../../lib/books.db.js';
 
 
 class App extends Component {
@@ -11,6 +12,17 @@ class App extends Component {
     this.state = {
       books: []
     }
+
+    this.addBook = this.addBook.bind(this);
+  }
+
+  addBook(book) {
+    addBookToFakeXHR(book)
+    .then(books => {
+      this.setState({
+        books: books
+      })
+    })
   }
 
   componentDidMount() {
@@ -27,6 +39,7 @@ class App extends Component {
       <div>
       <AppTitle title="Book List Redo" />
       <BookList books={ this.state.books } />
+      <NewBookForm addBook={ this.addBook } />
       </div>
       )
   }
