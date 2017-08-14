@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getBooksFromFakeXHR } from '../../lib/books.db.js';
+import { getBooksFromFakeXHR, addBookToFakeXHR } from '../../lib/books.db.js';
 import AppTitle from '../../components/BookListAppTitle.js';
 import BookList from '../BookList';
 import NewBookForm from '../NewBookForm/index.js';
@@ -15,11 +15,21 @@ class App extends Component {
     };
 
     this.setSearchFilter = this.setSearchFilter.bind(this);
+    this.addBook = this.addBook.bind(this);
   }
 
   setSearchFilter( event ){
     const searchFilter = event.target.value;
     this.setState({ searchFilter });
+  }
+
+  addBook( book ) {
+    addBookToFakeXHR(book)
+    .then(book => {
+      this.setState({
+        books: book
+      });
+    });
   }
 
   componentDidMount() {
@@ -36,7 +46,7 @@ class App extends Component {
       <AppTitle title="Book List" />
       <SearchField setSearchFilter={ this.setSearchFilter }/>
       <BookList books={ this.state.books } searchFilter={ this.state.searchFilter } />
-      <NewBookForm />
+      <NewBookForm addBook={ this.addBook }/>
       </div>
       );
   }

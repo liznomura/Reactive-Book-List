@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import {addBookToFakeXHR} from '../../lib/books.db.js';
-
-
 
 class NewBookForm extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       newTitle: '',
@@ -31,7 +28,7 @@ class NewBookForm extends Component {
 
   handleSubmit( event ) {
     event.preventDefault();
-    addBookToFakeXHR({
+    this.props.addBook({
       title : this.state.newTitle,
       author : this.state.newAuthor
     });
